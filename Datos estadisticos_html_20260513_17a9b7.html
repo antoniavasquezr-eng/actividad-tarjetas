@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Educación Rural en Chile | Infografía Interactiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #FEF9F0;
+            font-family: 'Montserrat', sans-serif;
+            padding: 40px 24px;
+            color: #1E262C;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .badge {
+            background: #F2C94C;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #1E262C;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: clamp(28px, 6vw, 52px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #1E262C, #3F5C4B);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        h1 span {
+            background: linear-gradient(135deg, #F2C94C, #D9A52C);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .sub {
+            font-size: 16px;
+            color: #5A5A5A;
+            max-width: 750px;
+            margin: 12px auto 0;
+        }
+
+        /* Layout dos columnas: regiones + panel datos */
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+        .regiones-grid {
+            flex: 1.2;
+            min-width: 280px;
+            background: white;
+            border-radius: 36px;
+            padding: 24px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+            border: 1px solid #F0E3CF;
+        }
+        .info-detalle {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 36px;
+            padding: 28px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+            border: 1px solid #F0E3CF;
+            transition: all 0.2s;
+        }
+
+        .titulo-seccion {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 4px solid #F2C94C;
+            padding-left: 16px;
+        }
+
+        /* Grilla de botones región */
+        .region-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+        }
+        .region-btn {
+            background: #FDF5E6;
+            border: 1px solid #EADDBF;
+            padding: 12px 6px;
+            border-radius: 60px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #2C3A33;
+        }
+        .region-btn i {
+            margin-right: 6px;
+        }
+        .region-btn:hover {
+            background: #F2E5D2;
+            border-color: #F2C94C;
+            transform: translateY(-2px);
+        }
+        .region-btn.active {
+            background: #F2C94C;
+            border-color: #F2C94C;
+            color: #1E262C;
+            box-shadow: 0 6px 12px rgba(242,201,76,0.3);
+        }
+
+        /* Panel derecho dinámico */
+        .region-nombre {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .region-sub {
+            background: #F2F0E8;
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .stat-fila {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #EFE5D6;
+            padding: 12px 0;
+            font-size: 14px;
+        }
+        .stat-etiqueta {
+            font-weight: 500;
+            color: #6C6C6C;
+        }
+        .stat-valor {
+            font-weight: 800;
+            color: #1E262C;
+        }
+        .highlight-box {
+            background: #FFF6E5;
+            padding: 16px;
+            border-radius: 24px;
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Cards estadísticas globales */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin: 48px 0 32px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 28px;
+            padding: 24px;
+            transition: transform 0.2s;
+            border: 1px solid #F2E0C4;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: #F2C94C;
+        }
+        .stat-card-num {
+            font-size: 44px;
+            font-weight: 800;
+            color: #F2C94C;
+            line-height: 1;
+        }
+        .stat-card-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin: 12px 0 8px;
+        }
+
+        /* tabs dentro del panel de datos (para explorar más) */
+        .mini-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 24px 0 16px;
+            flex-wrap: wrap;
+        }
+        .mini-tab {
+            background: #F4EDE1;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .mini-tab.active {
+            background: #F2C94C;
+            color: #1E262C;
+        }
+        .info-adicional {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #2E2C2A;
+            margin-top: 8px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #A99F8A;
+            border-top: 1px solid #E5D9C8;
+            padding-top: 32px;
+            margin-top: 48px;
+        }
+        @media (max-width: 780px) {
+            body { padding: 24px 16px; }
+            .region-nombre { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <div class="badge">📊 DIAGNÓSTICO 2024-2025 · MINEDUC</div>
+        <h1>Educación Rural en Chile <span>en datos interactivos</span></h1>
+        <p class="sub">Distribución, vulnerabilidad, multigrado, SIMCE y acceso a educación superior. Haz clic en cada región para ver su radiografía educativa. Fuentes: Villaseca (2025), Diálogos Rurales, JUNAEB.</p>
+    </div>
+
+    <!-- DASHBOARD: BOTONES DE REGIONES + PANEL -->
+    <div class="dashboard">
+        <!-- panel izquierdo: regiones interactivas -->
+        <div class="regiones-grid">
+            <div class="titulo-seccion">🗺️ <span>Explora por región</span></div>
+            <div class="region-buttons" id="regionButtonsContainer">
+                <!-- Se generarán dinámicamente con JS pero lo dejamos estático y claro -->
+            </div>
+            <div style="margin-top: 20px; font-size: 12px; text-align: center; color: #8B7958;">✨ Haz clic en cualquier región para actualizar el panel</div>
+        </div>
+
+        <!-- panel derecho: información dinámica -->
+        <div class="info-detalle" id="infoPanel">
+            <div class="region-nombre" id="regNombre">🌿 Visión nacional</div>
+            <div class="region-sub" id="regSub">Chile rural · resumen</div>
+            <div id="statsContainer">
+                <div class="stat-fila"><span class="stat-etiqueta">🏫 Escuelas rurales</span><span class="stat-valor" id="escuelasVal">3.121</span></div>
+                <div class="stat-fila"><span class="stat-etiqueta">👥 Matrícula total</span><span class="stat-valor" id="matriculaVal">273.935</span></div>
+                <div class="stat-fila"><span class="stat-etiqueta">⚠️ IVE Básica</span><span class="stat-valor" id="iveVal">89,9%</span></div>
+                <div class="stat-fila"><span class="stat-etiqueta">📚 Multigrado (% alumnos)</span><span class="stat-valor" id="multiVal">21,1%</span></div>
+                <div class="stat-fila"><span class="stat-etiqueta">🎓 Acceso a Ed. Superior</span><span class="stat-valor" id="accesoVal">48,1%</span></div>
+                <div class="stat-fila"><span class="stat-etiqueta">👩‍🏫 Escuelas uni/bidocentes</span><span class="stat-valor">45%</span></div>
+            </div>
+            <div class="highlight-box" id="highlightText">
+                🌾 29,3% de los colegios del país son rurales, pero concentran solo el 7,9% de la matrícula. El 70% de los estudiantes migra a zona urbana después de 8° básico.
+            </div>
+            <div class="mini-tabs">
+                <button class="mini-tab active" data-info="desafios">📌 Desafíos estructurales</button>
+                <button class="mini-tab" data-info="comunidad">🤝 Comunidad y territorio</button>
+                <button class="mini-tab" data-info="logros">📈 Evolución positiva</button>
+            </div>
+            <div id="dynamicInfo" class="info-adicional">
+                <strong>🔍 Brechas prioritarias:</strong> conectividad vial/digital, transporte escolar insuficiente, internados con evaluación regular (excepto familias beneficiarias). 27% de las escuelas están aisladas geográficamente.
+            </div>
+        </div>
+    </div>
+
+    <!-- CARDS ESTADÍSTICAS NACIONALES (CLARAS) -->
+    <div class="cards-grid">
+        <div class="stat-card"><div class="stat-card-num">89,9%</div><div class="stat-card-title">IVE Básica rural</div><div>Vs 77,8% urbano. La Araucanía alcanza 95,7%, la más alta del país.</div></div>
+        <div class="stat-card"><div class="stat-card-num">21,1%</div><div class="stat-card-title">Cursos multigrado</div><div>Prácticamente exclusivo de la ruralidad (0,3% en urbano). 45% de las escuelas son uni, bi o tridocentes.</div></div>
+        <div class="stat-card"><div class="stat-card-num">70,1%</div><div class="stat-card-title">Migran a ciudad tras 8°</div><div>Por falta de oferta media rural. Solo 3 de cada 10 continúan en contexto rural.</div></div>
+        <div class="stat-card"><div class="stat-card-num">+31%</div><div class="stat-card-title">Acceso a educación superior</div><div>De 2.478 a 3.254 estudiantes rurales (2017-2023). 3 de cada 4 nuevos ingresos van a universidades.</div></div>
+    </div>
+
+    <footer>
+        💡 Fuentes: Panorama de la educación rural en Chile (Manuel Villaseca, 2025) · Resumen Ejecutivo Diálogos Rurales MINEDUC (2024) · SIMCE, JUNAEB, SAE. Datos actualizados a 2024-2025.
+    </footer>
+</div>
+
+<script>
+    // Base de datos regional (construida con los datos del PDF y las infografías anteriores)
+    const regionesData = {
+        "Arica y Parinacota": { escuelas: 12, matricula: 2818, ive: "85,4%", multigrado: "15%", acceso: "42,3%", highlight: "Alta migración estudiantil hacia zonas urbanas. Predominio de establecimientos SLEP (94,9%)." },
+        "Tarapacá": { escuelas: 35, matricula: 13255, ive: "77,9%", multigrado: "18%", acceso: "42,3%", highlight: "Baja vulnerabilidad relativa, pero brechas en conectividad. Solo 8,6% migra a colegio urbano después de 8°." },
+        "Antofagasta": { escuelas: 7, matricula: 726, ive: "66,4%", multigrado: "8%", acceso: "n/d", highlight: "100% de establecimientos fiscales, matrícula pequeña. Desafíos de ruralidad extrema." },
+        "Atacama": { escuelas: 28, matricula: 1870, ive: "86,8%", multigrado: "21%", acceso: "36,5%", highlight: "Alta vulnerabilidad, cobertura SIMCE reducida por baja matrícula." },
+        "Coquimbo": { escuelas: 225, matricula: 14135, ive: "88,2%", multigrado: "25%", acceso: "52,2%", highlight: "Importante cantidad de escuelas rurales. Mejora en acceso a educación superior (+52%)." },
+        "Valparaíso": { escuelas: 130, matricula: 13952, ive: "86,6%", multigrado: "19%", acceso: "50,1%", highlight: "Zonas rurales semiurbanizadas, microcentros activos." },
+        "Metropolitana": { escuelas: 25, matricula: 33927, ive: "85,5%", multigrado: "9%", acceso: "50,8%", highlight: "Alta demanda (postulaciones superan vacantes). Sin embargo, alta vulnerabilidad en sectores rurales de la periferia." },
+        "O'Higgins": { escuelas: 61, matricula: 32152, ive: "88,5%", multigrado: "22%", acceso: "46,2%", highlight: "Matrícula rural significativa; fuerte presencia de escuelas multigrado." },
+        "Maule": { escuelas: 320, matricula: 40073, ive: "92,2%", multigrado: "28%", acceso: "47,8%", highlight: "Segunda región con más matrícula rural. Alta vulnerabilidad y porcentaje de cursos multigrado." },
+        "Ñuble": { escuelas: 164, matricula: 14717, ive: "91,5%", multigrado: "27%", acceso: "53,8%", highlight: "Alta cobertura de educación rural y buen acceso a educación superior (53,8%)." },
+        "Biobío": { escuelas: 231, matricula: 25377, ive: "92,8%", multigrado: "24%", acceso: "51,2%", highlight: "Gran cantidad de escuelas rurales, IVE elevado (92,8%)." },
+        "La Araucanía": { escuelas: 496, matricula: 32566, ive: "95,7%", multigrado: "32%", acceso: "35,8%", highlight: "Máxima vulnerabilidad del país + alta población indígena. 496 escuelas rurales (18,5% del total nacional)." },
+        "Los Ríos": { escuelas: 200, matricula: 15298, ive: "93,8%", multigrado: "34%", acceso: "43,8%", highlight: "Multigrado más alto del país (34%). Dificultades de conectividad vial." },
+        "Los Lagos": { escuelas: 397, matricula: 29458, ive: "89,3%", multigrado: "30%", acceso: "51,9%", highlight: "Segunda región con más establecimientos rurales. Fuerte tradición de microcentros." },
+        "Aysén": { escuelas: 29, matricula: 3363, ive: "83,4%", multigrado: "19%", acceso: "62,5%", highlight: "Alto acceso a educación superior (62,5%), pero baja densidad poblacional extrema." },
+        "Magallanes": { escuelas: 10, matricula: 248, ive: "72,4%", multigrado: "10%", acceso: "n/d", highlight: "Muy baja matrícula rural; desafíos de aislamiento extremo." }
+    };
+
+    // Datos nacionales (por defecto)
+    const nacional = {
+        escuelas: "3.121", matricula: "273.935", ive: "89,9%", multigrado: "21,1%", acceso: "48,1%",
+        highlight: "🌾 29,3% de los colegios del país son rurales, pero concentran solo el 7,9% de la matrícula. 9 de cada 10 estudiantes rurales son vulnerables. El 70% abandona la educación rural después de 8° básico."
+    };
+
+    // Elementos DOM
+    const regNombre = document.getElementById("regNombre");
+    const regSub = document.getElementById("regSub");
+    const escuelasSpan = document.getElementById("escuelasVal");
+    const matriculaSpan = document.getElementById("matriculaVal");
+    const iveSpan = document.getElementById("iveVal");
+    const multiSpan = document.getElementById("multiVal");
+    const accesoSpan = document.getElementById("accesoVal");
+    const highlightDiv = document.getElementById("highlightText");
+    const dynamicInfoDiv = document.getElementById("dynamicInfo");
+
+    // Texto dinámico de pestañas (desafíos, comunidad, logros)
+    const infoTexts = {
+        desafios: "📌 <strong>Brechas estructurales:</strong> 27% de las escuelas aisladas geográficamente. Solo el 31% de las escuelas con menos de 17 alumnos recibe el piso rural. Déficit de psicólogos, fonoaudiólogos y transporte escolar. Internados con evaluación general negativa (excepto familias beneficiarias).",
+        comunidad: "🤝 <strong>Comunidad y territorio:</strong> 37% de las escuelas tienen alta ascendencia indígena. Los diálogos rurales (1.150 encuentros) demandan currículum pertinente, participación vinculante y fortalecimiento de microcentros como espacios de desarrollo profesional.",
+        logros: "📈 <strong>Evolución positiva:</strong> Crecimiento de +31% en acceso a educación superior rural (2017-2023). Mejora de la asistencia escolar (90,2% en básica rural). Subvención por alumno más alta que la urbana ($190.579 vs $145.549). Plan Gabriela Mistral + Política Nacional de Educación Rural en construcción."
+    };
+
+    let currentRegion = null;  // null = nacional
+
+    function actualizarPanel(regionId) {
+        if (!regionId || !regionesData[regionId]) {
+            // Vista nacional
+            regNombre.innerHTML = "🌿 Visión nacional";
+            regSub.innerText = "Chile rural · resumen";
+            escuelasSpan.innerText = nacional.escuelas;
+            matriculaSpan.innerText = nacional.matricula;
+            iveSpan.innerText = nacional.ive;
+            multiSpan.innerText = nacional.multigrado;
+            accesoSpan.innerText = nacional.acceso;
+            highlightDiv.innerHTML = nacional.highlight;
+            currentRegion = null;
+        } else {
+            const data = regionesData[regionId];
+            regNombre.innerHTML = `📍 ${regionId}`;
+            regSub.innerText = "datos específicos · educación rural";
+            escuelasSpan.innerText = data.escuelas;
+            matriculaSpan.innerText = data.matricula.toLocaleString();
+            iveSpan.innerText = data.ive;
+            multiSpan.innerText = data.multigrado;
+            accesoSpan.innerText = data.acceso !== "n/d" ? data.acceso : "dato no disponible";
+            highlightDiv.innerHTML = data.highlight;
+            currentRegion = regionId;
+        }
+        // Mantener la pestaña activa (desafíos por defecto no se resetea, pero se puede refrescar)
+        const activeTab = document.querySelector(".mini-tab.active");
+        if (activeTab) {
+            const tabId = activeTab.getAttribute("data-info");
+            dynamicInfoDiv.innerHTML = infoTexts[tabId] || infoTexts.desafios;
+        } else {
+            dynamicInfoDiv.innerHTML = infoTexts.desafios;
+        }
+    }
+
+    // Generar botones de regiones en orden
+    const regionOrder = [
+        "Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso",
+        "Metropolitana", "O'Higgins", "Maule", "Ñuble", "Biobío", "La Araucanía", "Los Ríos",
+        "Los Lagos", "Aysén", "Magallanes"
+    ];
+
+    const container = document.getElementById("regionButtonsContainer");
+    regionOrder.forEach(region => {
+        const btn = document.createElement("button");
+        btn.className = "region-btn";
+        btn.innerHTML = `📍 ${region}`;
+        btn.addEventListener("click", () => {
+            // resaltar botón activo
+            document.querySelectorAll(".region-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            actualizarPanel(region);
+        });
+        container.appendChild(btn);
+    });
+
+    // Botón para volver a visión nacional (agregamos un botón especial)
+    const resetBtn = document.createElement("button");
+    resetBtn.className = "region-btn";
+    resetBtn.innerHTML = "🌿 Nacional (ver todo Chile)";
+    resetBtn.style.background = "#F2E5D2";
+    resetBtn.addEventListener("click", () => {
+        document.querySelectorAll(".region-btn").forEach(b => b.classList.remove("active"));
+        actualizarPanel(null);
+    });
+    container.appendChild(resetBtn);
+
+    // Inicializar con datos nacionales
+    actualizarPanel(null);
+
+    // Pestañas mini (desafíos, comunidad, logros)
+    const tabs = document.querySelectorAll(".mini-tab");
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            const infoKey = tab.getAttribute("data-info");
+            if (infoTexts[infoKey]) {
+                dynamicInfoDiv.innerHTML = infoTexts[infoKey];
+            } else {
+                dynamicInfoDiv.innerHTML = infoTexts.desafios;
+            }
+        });
+    });
+</script>
+</body>
+</html>
