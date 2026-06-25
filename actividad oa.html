@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OA Currículum Chileno - Clasificación en parejas</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #1e2a3a;
+        }
+
+        .sub {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            background: #ffe13a33;
+            padding: 10px;
+            border-radius: 40px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .deck {
+            background: #e9ecef;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .deck h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: #272e35;
+            border-left: 6px solid #ffe13a;
+            padding-left: 15px;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .card {
+            width: 220px;
+            padding: 16px 12px;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            cursor: grab;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            color: #1e2a3a;
+        }
+
+        .card:active {
+            cursor: grabbing;
+        }
+
+        .card.dragging {
+            opacity: 0.5;
+        }
+
+        /* Tarjetas con los tres colores posibles (solo estéticos) */
+        .card.color-yellow {
+            background: #ffe13a;
+            border: 2px solid #d4b81f;
+        }
+        .card.color-dark {
+            background: #272e35;
+            color: white;
+            border: 2px solid #101418;
+        }
+        .card.color-gray {
+            background: #3d444c;
+            color: white;
+            border: 2px solid #1f242a;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .category {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .category h3 {
+            text-align: center;
+            padding: 12px;
+            margin: -16px -16px 16px -16px;
+            border-radius: 24px 24px 0 0;
+            font-size: 1.2rem;
+        }
+
+        .category.common h3 {
+            background: #ffe13a;
+            color: #1e2a3a;
+        }
+        .category.differentiated h3 {
+            background: #272e35;
+            color: white;
+        }
+        .category.complementary h3 {
+            background: #3d444c;
+            color: white;
+        }
+
+        .dropzone {
+            min-height: 380px;
+            background: #fafbfc;
+            border-radius: 20px;
+            padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-start;
+            transition: background 0.1s ease;
+        }
+
+        .dropzone.drag-over {
+            background: #e2e6ea;
+        }
+
+        .dropzone .card {
+            width: 180px;
+            cursor: pointer;
+            margin: 0;
+            font-size: 0.8rem;
+            padding: 12px 8px;
+        }
+
+        button {
+            background: #272e35;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 30px;
+            display: inline-block;
+            transition: 0.2s;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #3d444c;
+            transform: scale(1.02);
+        }
+
+        .buttons-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #5a6874;
+        }
+    </style>
+</head>
+<body>
+
+<h1> Clasificación de OA - Currículum Nacional Chileno</h1>
+<div class="sub"> Lenguaje y Comunicación | 1° Básico a 4° Medio</div>
+
+<div class="deck">
+    <h2>🃏 Tarjetas (arrastra cada una a su categoría)</h2>
+    <div class="cards-container" id="initial-cards"></div>
+</div>
+
+<div class="categories">
+    <div class="category common" data-category="common">
+        <h3> OA Comunes</h3>
+        <div class="dropzone" id="drop-common"></div>
+    </div>
+    <div class="category differentiated" data-category="differentiated">
+        <h3>⚡ OA Diferenciados</h3>
+        <div class="dropzone" id="drop-differentiated"></div>
+    </div>
+    <div class="category complementary" data-category="complementary">
+        <h3>🔗 OA Complementarios</h3>
+        <div class="dropzone" id="drop-complementary"></div>
+    </div>
+</div>
+
+<div class="buttons-container">
+    <button id="resetBtn">🔄 Reiniciar actividad</button>
+    <button id="checkBtn">✅ Revisar clasificación (respuesta)</button>
+</div>
+
+<div class="footer">
+    💡 En parejas: discutan si cada OA es común (mismo aprendizaje en distintos niveles), diferenciado (misma habilidad con mayor profundidad) o complementario (se relacionan pero abordan distintas habilidades).
+    <br>
+    Los colores de las tarjetas son solo decorativos, NO indican la respuesta.
+</div>
+
+<script>
+    // 12 OA basados en el currículum chileno de Lenguaje
+    // Cada uno tiene su clasificación correcta (oculta a simple vista)
+    const tarjetasData = [
+        { id: 1, texto: "OA 2: Comprender textos aplicando estrategias de comprensión lectora (2° Básico)", nivel: "2° Básico", correcta: "common" },
+        { id: 2, texto: "OA 5: Leer y comprender textos literarios y no literarios (3° Básico)", nivel: "3° Básico", correcta: "common" },
+        { id: 3, texto: "OA 7: Leer comprensivamente textos de mayor extensión (5° Básico)", nivel: "5° Básico", correcta: "common" },
+        { id: 4, texto: "OA 9: Analizar e interpretar textos literarios considerando temática y lenguaje (7° Básico)", nivel: "7° Básico", correcta: "differentiated" },
+        { id: 5, texto: "OA 11: Analizar críticamente textos argumentativos identificando postura del autor (1° Medio)", nivel: "1° Medio", correcta: "differentiated" },
+        { id: 6, texto: "OA 14: Evaluar la confiabilidad de fuentes en textos no literarios (3° Medio)", nivel: "3° Medio", correcta: "differentiated" },
+        { id: 7, texto: "OA 1: Producir textos breves para comunicar experiencias (1° Básico)", nivel: "1° Básico", correcta: "complementary" },
+        { id: 8, texto: "OA 12: Escribir relatos con estructura narrativa clara (4° Básico)", nivel: "4° Básico", correcta: "complementary" },
+        { id: 9, texto: "OA 19: Producir ensayos literarios con hipótesis personal (2° Medio)", nivel: "2° Medio", correcta: "complementary" },
+        { id: 10, texto: "OA 4: Leer en voz alta con entonación y fluidez (1° Básico)", nivel: "1° Básico", correcta: "common" },
+        { id: 11, texto: "OA 8: Interpretar sentido global de poemas y obras dramáticas (6° Básico)", nivel: "6° Básico", correcta: "differentiated" },
+        { id: 12, texto: "OA 22: Producir textos digitales colaborativos (4° Medio)", nivel: "4° Medio", correcta: "complementary" }
+    ];
+
+    // Lista de colores disponibles (tonos solicitados)
+    const colores = ["#ffe13a", "#272e35", "#3d444c"];
+    
+    // Asignar un color aleatorio a cada tarjeta (solo estético)
+    function asignarColorAleatorio() {
+        return colores[Math.floor(Math.random() * colores.length)];
+    }
+
+    // Determinar clase CSS según color
+    function getColorClass(hexColor) {
+        if (hexColor === "#ffe13a") return "color-yellow";
+        if (hexColor === "#272e35") return "color-dark";
+        return "color-gray";
+    }
+
+    // Crear elemento tarjeta DOM
+    function createCardElement(cardData, colorHex) {
+        const div = document.createElement('div');
+        div.className = `card ${getColorClass(colorHex)}`;
+        div.setAttribute('data-id', cardData.id);
+        div.setAttribute('data-correcta', cardData.correcta);
+        div.setAttribute('draggable', 'true');
+        div.innerHTML = `<strong>${cardData.nivel}</strong><br>${cardData.texto}`;
+        
+        div.addEventListener('dragstart', handleDragStart);
+        div.addEventListener('dragend', handleDragEnd);
+        return div;
+    }
+
+    let draggedItem = null;
+
+    function handleDragStart(e) {
+        draggedItem = this;
+        e.dataTransfer.setData('text/plain', this.getAttribute('data-id'));
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragEnd(e) {
+        if (draggedItem) draggedItem.classList.remove('dragging');
+        draggedItem = null;
+        document.querySelectorAll('.dropzone').forEach(zone => {
+            zone.classList.remove('drag-over');
+        });
+    }
+
+    function setupDropZones() {
+        const dropZones = document.querySelectorAll('.dropzone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                zone.classList.add('drag-over');
+            });
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('drag-over');
+            });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                if (!draggedItem) return;
+                if (draggedItem.parentNode !== zone) {
+                    zone.appendChild(draggedItem);
+                }
+            });
+        });
+    }
+
+    function resetActivity() {
+        const initialContainer = document.getElementById('initial-cards');
+        const commonZone = document.getElementById('drop-common');
+        const diffZone = document.getElementById('drop-differentiated');
+        const compZone = document.getElementById('drop-complementary');
+        
+        commonZone.innerHTML = '';
+        diffZone.innerHTML = '';
+        compZone.innerHTML = '';
+        initialContainer.innerHTML = '';
+        
+        // Reconstruir tarjetas con colores aleatorios nuevos cada vez que se reinicia
+        tarjetasData.forEach(card => {
+            const colorAleatorio = asignarColorAleatorio();
+            const cardElem = createCardElement(card, colorAleatorio);
+            initialContainer.appendChild(cardElem);
+        });
+    }
+
+    function checkClassification() {
+        const commonZone = document.getElementById('drop-common');
+        const diffZone = document.getElementById('drop-differentiated');
+        const compZone = document.getElementById('drop-complementary');
+        
+        let resultados = {
+            common: { correctas: 0, total: 0, detalles: [] },
+            differentiated: { correctas: 0, total: 0, detalles: [] },
+            complementary: { correctas: 0, total: 0, detalles: [] }
+        };
+        
+        // Contar totales por categoría correcta
+        tarjetasData.forEach(card => {
+            resultados[card.correcta].total++;
+        });
+        
+        function evaluarZona(zona, categoriaEsperada) {
+            const cards = zona.querySelectorAll('.card');
+            cards.forEach(card => {
+                const deberiaSer = card.getAttribute('data-correcta');
+                const textoBreve = card.innerText.replace(/\n/g, ' ').substring(0, 60);
+                if (deberiaSer === categoriaEsperada) {
+                    resultados[categoriaEsperada].correctas++;
+                    resultados[categoriaEsperada].detalles.push(`✓ ${textoBreve}`);
+                } else {
+                    resultados[categoriaEsperada].detalles.push(`❌ "${textoBreve}" → debió ir a ${deberiaSer.toUpperCase()}`);
+                }
+            });
+        }
+        
+        evaluarZona(commonZone, 'common');
+        evaluarZona(diffZone, 'differentiated');
+        evaluarZona(compZone, 'complementary');
+        
+        let mensaje = "📋 RESULTADOS DE CLASIFICACIÓN (según Currículum Chileno)\n\n";
+        mensaje += `🔹 OA Comunes: ${resultados.common.correctas}/${resultados.common.total} correctas\n`;
+        mensaje += `🔸 OA Diferenciados: ${resultados.differentiated.correctas}/${resultados.differentiated.total} correctas\n`;
+        mensaje += `🔹 OA Complementarios: ${resultados.complementary.correctas}/${resultados.complementary.total} correctas\n\n`;
+        mensaje += "🔍 Revisión detallada:\n";
+        mensaje += `\n--- COMUNES ---\n${resultados.common.detalles.join('\n') || 'Ninguna tarjeta aquí'}\n`;
+        mensaje += `\n--- DIFERENCIADOS ---\n${resultados.differentiated.detalles.join('\n') || 'Ninguna tarjeta aquí'}\n`;
+        mensaje += `\n--- COMPLEMENTARIOS ---\n${resultados.complementary.detalles.join('\n') || 'Ninguna tarjeta aquí'}\n`;
+        mensaje += "\n💬 Recuerda: Los colores NO indican la respuesta. Clasificaron según el análisis del OA y su nivel.";
+        
+        alert(mensaje);
+    }
+
+    function init() {
+        resetActivity();
+        setupDropZones();
+        document.getElementById('resetBtn').addEventListener('click', resetActivity);
+        document.getElementById('checkBtn').addEventListener('click', checkClassification);
+        
+        document.body.addEventListener('dragover', (e) => e.preventDefault());
+        document.body.addEventListener('drop', (e) => e.preventDefault());
+    }
+    
+    init();
+</script>
+</body>
+</html>
