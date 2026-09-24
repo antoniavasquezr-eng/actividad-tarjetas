@@ -61,9 +61,9 @@ h1{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
 <body>
 <div class="wrap">
 <h1>¿Cómo se articulan estos OA en el aula multigrado?</h1>
-<p class="lead">Lee cada situación y elige qué tipo de articulación es. Puedes tocar una caja o arrastrar la tarjeta hasta ella. Si dudas, usa la pista.</p>
+<p class="lead">Lee cada situación y elige qué tipo de articulación es. Puedes tocar una caja o arrastrar la tarjeta hasta ella. Si dudas, usa la pista. Ojo: algunas tarjetas parecen una cosa pero son otra.</p>
 
-<div class="bar"><span id="cnt">0 de 9</span><div class="track"><div class="fill" id="fill"></div></div></div>
+<div class="bar"><span id="cnt">0 de 12</span><div class="track"><div class="fill" id="fill"></div></div></div>
 
 <section class="stage" id="stage">
   <div class="play">
@@ -122,41 +122,79 @@ h1{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
 
 <script>
 const DATA=[
+/* ===== COMÚN (4) ===== */
 {a:"Ciencias",g:"1° a 6°",t:"Al inicio de la clase, todo el grupo comenta qué significa estar vivo y los más pequeños comparten sus ideas primero.",c:"c",w:"Todos trabajan el mismo tema con la misma estrategia. Es el tronco compartido.",h:"Nadie cambia de exigencia: es una activación colectiva."},
 {a:"Lenguaje",g:"2° y 4°",t:"Ambos cursos escuchan el mismo cuento en voz alta y comentan juntos qué entendieron y qué sintieron.",c:"c",w:"Mismo contenido y misma estrategia de transmisión para ambos niveles.",h:"¿Hay alguna tarea distinta para cada curso? No."},
-{a:"Ed. Física",g:"1° a 6°",t:"Todos practican el mismo circuito de coordinación con las mismas instrucciones.",c:"c",w:"Un denominador común: mismo aprendizaje sin distinguir grado.",h:"Piensa si la exigencia cambia según el curso."},
+{a:"Ciencias",g:"1° y 3°",t:"OA: 'Describir características de animales nativos de Chile'. Ambos cursos realizan la misma actividad de observación y descripción.",c:"c",w:"Aunque los niveles son distintos, el OA y la actividad son los mismos. Es un denominador común.",h:"Fíjate: el OA es el mismo para ambos niveles, y la tarea también."},
+{a:"Orientación",g:"1° a 6°",t:"El docente decide que todos, de 1° a 6°, trabajen con las mismas actividades para identificar emociones propias y de los demás.",c:"c",w:"Aunque parezca que debería diferenciarse por edad, la situación describe la misma actividad para todos. Es común.",h:"¿La actividad cambia según el curso? No. ¿El OA es el mismo? Sí."},
+
+/* ===== DIFERENCIADO (4) ===== */
 {a:"Ciencias",g:"1°, 3° y 5°",t:"En la unidad del cuerpo humano, 1° identifica partes externas, 3° estudia el sistema locomotor y 5° explica células, tejidos y órganos.",c:"d",w:"Mismo tema con progresión de simple a complejo, como en una matriz de progresión.",h:"Fíjate en cómo crece la profundidad de un curso a otro."},
-{a:"Matemática",g:"1° a 6°",t:"1° y 2° representan con fichas y dibujos; 5° y 6° avanzan a símbolos y lenguaje técnico.",c:"d",w:"Se ajusta de lo concreto a lo abstracto sobre el mismo tema.",h:"El tema es el mismo, cambia el tipo de representación."},
-{a:"Lenguaje",g:"2° y 6°",t:"Ambos leen textos sobre animales de la zona: 2° identifica de qué trata y 6° compara dos textos y argumenta.",c:"d",w:"Misma habilidad lectora, con mayor exigencia cognitiva en el curso superior.",h:"Compara qué se le pide a cada curso."},
+{a:"Matemática",g:"1° a 6°",t:"Todos trabajan el concepto de fracciones. 1° y 2° usan fichas y material concreto; 3° y 4° dibujan; 5° y 6° usan símbolos y lenguaje técnico.",c:"d",w:"Parece que todos hacen lo mismo, pero la representación cambia por nivel: de lo concreto a lo abstracto.",h:"El tema es el mismo, pero la forma de representarlo cambia según el curso."},
+{a:"Ciencias",g:"1°, 3° y 5°",t:"Proyecto de huerta escolar: 1° riega y observa, 3° observa y dibuja el crecimiento de las plantas, 5° investiga el tipo de suelo y las condiciones óptimas.",c:"d",w:"Parece interdisciplinar por la variedad de tareas, pero solo participa Ciencias con distintas profundidades. Es diferenciación.",h:"¿Cuántas asignaturas hay? Solo Ciencias. ¿Cambia la profundidad? Sí."},
+{a:"Ciencias",g:"1° y 5°",t:"OA 1°: 'Identificar las partes externas del cuerpo humano y su función'. OA 5°: 'Explicar los niveles de organización de los seres vivos: célula, tejido, órgano y sistema'.",c:"d",w:"Mismo tema (el cuerpo), pero la exigencia cognitiva cambia radicalmente entre 1° y 5°. Es diferenciación por profundidad.",h:"El tema es el mismo, pero uno identifica y el otro explica niveles de organización."},
+
+/* ===== COMPLEMENTARIO (4) ===== */
 {a:"Ciencias + Matemática + Historia",g:"3° a 6°",t:"Proyecto sobre el agua de la comunidad: ciclo del agua, gráficos de consumo y cómo el pueblo se adaptó a la disponibilidad.",c:"x",w:"Tres disciplinas se cruzan en un escenario real: es interdisciplinar.",h:"Cuenta cuántas asignaturas participan."},
-{a:"Ciencias + Matemática",g:"2° a 5°",t:"Clasifican la fauna que ven en el camino a la escuela y grafican cuántos ejemplares de cada especie encontraron.",c:"x",w:"Ciencias aporta la clasificación y Matemática el registro y análisis, en un mismo desafío.",h:"¿Hay más de una asignatura en juego?"},
-{a:"Lenguaje + Historia + Artes",g:"4° a 6°",t:"Entrevistan a adultos mayores, escriben sus relatos y arman una exposición sobre la historia del pueblo.",c:"x",w:"Varias áreas se integran para dar sentido a un producto para la comunidad.",h:"Piensa en un escenario o argumento que reúne asignaturas."}
+{a:"Historia + Matemática",g:"3° y 4°",t:"OA Historia: 'Ubicar en mapas las principales fuentes de agua de la región'. OA Matemática: 'Registrar y graficar datos de consumo de agua'.",c:"x",w:"Dos asignaturas se cruzan en un mismo desafío: ubicar y graficar el agua local.",h:"¿Hay más de una asignatura en juego?"},
+{a:"Lenguaje + Historia + Artes",g:"4° a 6°",t:"Entrevistan a adultos mayores, escriben sus relatos y arman una exposición sobre la historia del pueblo.",c:"x",w:"Varias áreas se integran para dar sentido a un producto para la comunidad.",h:"Piensa en un escenario o argumento que reúne asignaturas."},
+{a:"Ciencias + Matemática",g:"2° a 5°",t:"Clasifican la fauna que ven en el camino a la escuela y grafican cuántos ejemplares de cada especie encontraron.",c:"x",w:"Ciencias aporta la clasificación y Matemática el registro y análisis, en un mismo desafío.",h:"¿Hay más de una asignatura en juego?"}
 ];
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
 const N={c:"OA comunes",d:"OA diferenciados",x:"OA complementarios"};
 let q,cur,ok,err,firstTry;
 const $=id=>document.getElementById(id);
-function start(){q=DATA.map((_,i)=>i);ok=0;err=0;firstTry=new Set(DATA.map((_,i)=>i));
- ["c","d","x"].forEach(k=>$("p-"+k).innerHTML="");$("end").hidden=true;$("stage").hidden=false;
- show();upd()}
+
+function start(){
+  q=shuffle(DATA.map((_,i)=>i));
+  ok=0;err=0;
+  firstTry=new Set(DATA.map((_,i)=>i));
+  ["c","d","x"].forEach(k=>$("p-"+k).innerHTML="");
+  $("end").hidden=true;$("stage").hidden=false;
+  show();upd();
+}
 function upd(){$("cnt").textContent=ok+" de "+DATA.length;$("fill").style.width=ok/DATA.length*100+"%"}
-function show(msg){if(!q.length){finish();return}
- const d=DATA[q[0]];cur=q[0];
- $("card").innerHTML='<div class="tag"><span>'+d.a+'</span><span>'+d.g+'</span></div><p>'+d.t+'</p>';
- setMsg(msg||"Elige una de las tres cajas de abajo.","")}
+function show(msg){
+  if(!q.length){finish();return}
+  const d=DATA[q[0]];cur=q[0];
+  $("card").innerHTML='<div class="tag"><span>'+d.a+'</span><span>'+d.g+'</span></div><p>'+d.t+'</p>';
+  setMsg(msg||"Elige una de las tres cajas de abajo.","");
+}
 function setMsg(t,c){const m=$("msg");m.textContent=t;m.className="msg "+c}
-function place(k){if(!q.length)return;const d=DATA[cur];
- if(d.c===k){ok++;const s=document.createElement("div");s.className="chip";s.textContent=d.a+" · "+d.g+": "+d.t.split(/[:,.]/)[0];
-  $("p-"+k).appendChild(s);q.shift();upd();
-  if(q.length){show();setMsg("Correcto. "+d.w,"ok")}else{show()}
- }else{err++;firstTry.delete(cur);const c=$("card");c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");
-  setMsg("Todavía no. No es "+N[k]+". Pide una pista o prueba con otra caja.","no")}}
-function finish(){$("stage").hidden=true;$("end").hidden=false;
- $("score").textContent="Acertaste "+firstTry.size+" de "+DATA.length+" a la primera y ordenaste todas las tarjetas. Los errores son parte del aprendizaje: sirven para afinar los criterios."}
+function place(k){
+  if(!q.length)return;const d=DATA[cur];
+  if(d.c===k){
+    ok++;
+    const s=document.createElement("div");
+    s.className="chip";
+    s.textContent=d.a+" · "+d.g+": "+d.t.split(/[:,.]/)[0];
+    $("p-"+k).appendChild(s);
+    q.shift();upd();
+    if(q.length){show();setMsg("Correcto. "+d.w,"ok")}else{show()}
+  }else{
+    err++;firstTry.delete(cur);
+    const c=$("card");c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");
+    setMsg("Todavía no. No es "+N[k]+". Pide una pista o prueba con otra caja.","no");
+  }
+}
+function finish(){
+  $("stage").hidden=true;$("end").hidden=false;
+  $("score").textContent="Acertaste "+firstTry.size+" de "+DATA.length+" a la primera y ordenaste todas las tarjetas. Los errores son parte del aprendizaje: sirven para afinar los criterios.";
+}
 document.querySelectorAll(".zone").forEach(z=>{
- z.addEventListener("click",()=>place(z.dataset.c));
- z.addEventListener("dragover",e=>{e.preventDefault();z.classList.add("over")});
- z.addEventListener("dragleave",()=>z.classList.remove("over"));
- z.addEventListener("drop",e=>{e.preventDefault();z.classList.remove("over");place(z.dataset.c)})});
+  z.addEventListener("click",()=>place(z.dataset.c));
+  z.addEventListener("dragover",e=>{e.preventDefault();z.classList.add("over")});
+  z.addEventListener("dragleave",()=>z.classList.remove("over"));
+  z.addEventListener("drop",e=>{e.preventDefault();z.classList.remove("over");place(z.dataset.c)});
+});
 $("card").addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain","c");$("card").classList.add("dragging")});
 $("card").addEventListener("dragend",()=>$("card").classList.remove("dragging"));
 $("hintBtn").onclick=()=>{if(q.length)setMsg("Pista: "+DATA[cur].h,"hint")};
